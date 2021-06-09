@@ -6,14 +6,15 @@ class DataBaseConfig
     public $username;
     public $password;
     public $databasename;
+    public $report;
 
     public function __construct()
     {
 
         $this->servername = 'localhost';
         $this->username = 'root';
-        $this->password = '20010518';
-        $this->databasename = 'sign_in';
+        $this->password = '';
+        $this->databasename = 'loginregister';
 
     }
 }

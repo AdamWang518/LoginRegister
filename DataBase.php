@@ -9,6 +9,7 @@ class DataBase
     protected $servername;
     protected $username;
     protected $password;
+    protected $report;
     protected $databasename;
 
     public function __construct()
@@ -20,6 +21,7 @@ class DataBase
         $this->servername = $dbc->servername;
         $this->username = $dbc->username;
         $this->password = $dbc->password;
+        $this->report=$dbc->report;
         $this->databasename = $dbc->databasename;
     }
 
@@ -33,7 +35,7 @@ class DataBase
     {
         return mysqli_real_escape_string($this->connect, stripslashes(htmlspecialchars($data)));
     }
-
+    
     function logIn($table, $username, $password)
     {
         $username = $this->prepareData($username);
@@ -56,6 +58,7 @@ class DataBase
     {
         $username = $this->prepareData($username);
         $password = $this->prepareData($password);
+        #hash加密，如果不想要加密可去掉這段並把verify改掉
         $password = password_hash($password, PASSWORD_DEFAULT);
         $this->sql =
             "INSERT INTO " . $table . " (username, password) VALUES ('" . $username . "','" . $password . "')";
@@ -63,7 +66,16 @@ class DataBase
             return true;
         } else return false;
     }
-
+    function rePort($table, $report, $username)
+    {
+        $username = $this->prepareData($username);
+        $report = $this->prepareData($report);
+        $this->sql =
+            "INSERT INTO " . $table . " (report, username) VALUES ('" . $report . "','" . $username . "')";
+        if (mysqli_query($this->connect, $this->sql)) {
+            return true;
+        } else return false;
+    }
 }
 
 ?>
