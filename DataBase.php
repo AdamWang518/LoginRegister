@@ -6,11 +6,12 @@ class DataBase
     public $connect;
     public $data;
     private $sql;
-    protected $servername;
-    protected $username;
-    protected $password;
-    protected $report;
-    protected $databasename;
+    public $servername;
+    public $username;
+    public $password;
+    public $databasename;
+
+
 
     public function __construct()
     {
@@ -21,7 +22,6 @@ class DataBase
         $this->servername = $dbc->servername;
         $this->username = $dbc->username;
         $this->password = $dbc->password;
-        $this->report=$dbc->report;
         $this->databasename = $dbc->databasename;
     }
 
@@ -53,13 +53,36 @@ class DataBase
 
         return $login;
     }
-
+    function locaion($table, $city,$town,$road,$latitude,$longitude)
+    {
+        $city = $this->prepareData($city);
+        $town = $this->prepareData($town);
+        $road = $this->prepareData($road);
+        $latitude = $this->prepareData($latitude);
+        $longitude = $this->prepareData($longitude);
+        $this->sql =
+            "INSERT INTO " . $table . " (縣市,鄉鎮,道路門牌,緯度,經度) VALUES ('" . $city . "','" . $town . "','" . $road . "','" . $latitude . "','" . $longitude . "')";
+        if (mysqli_query($this->connect, $this->sql)) {
+            return true;
+        } else return false;
+    }
+    function HA($table, $name, $city,$town,$road)
+    {
+        $name = $this->prepareData($name);
+        $city = $this->prepareData($city);
+        $town = $this->prepareData($town);
+        $road = $this->prepareData($road);
+        $this->sql =
+            "INSERT INTO " . $table . " (名稱, 縣市,鄉鎮,道路門牌) VALUES ('" . $name . "','" . $city . "','" . $town . "','" . $road . "')";
+        if (mysqli_query($this->connect, $this->sql)) {
+            return true;
+        } else return false;
+    }
     function signUp($table, $username, $password)
     {
         $username = $this->prepareData($username);
         $password = $this->prepareData($password);
         #hash加密，如果不想要加密可去掉這段並把verify改掉
-        $password = password_hash($password, PASSWORD_DEFAULT);
         $this->sql =
             "INSERT INTO " . $table . " (username, password) VALUES ('" . $username . "','" . $password . "')";
         if (mysqli_query($this->connect, $this->sql)) {
