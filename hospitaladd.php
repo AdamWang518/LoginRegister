@@ -4,7 +4,7 @@ $db = new DataBase();
 $_POST = json_decode(file_get_contents('php://input'), true);
 if (isset($_POST['name']) && isset($_POST['city'])&& isset($_POST['town'])&& isset($_POST['road'])) {
     if ($db->dbConnect()) {
-        if ($db->HA("hospital_opendata", $_POST['name'], $_POST['city'], $_POST['town'], $_POST['road'])) {
+        if ($db->Add("hospital_opendata", $_POST['name'], $_POST['city'], $_POST['town'], $_POST['road'])) {
             $json = Array(
                 "HttpCode" => 200,
                 "message" => "success"

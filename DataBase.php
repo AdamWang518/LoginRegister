@@ -66,7 +66,7 @@ class DataBase
             return true;
         } else return false;
     }
-    function HA($table, $name, $city,$town,$road)
+    function Add($table, $name, $city,$town,$road)
     {
         $name = $this->prepareData($name);
         $city = $this->prepareData($city);
